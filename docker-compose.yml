@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  main:
+    image: main 
+    healthcheck:
+      test: ["CMD"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always
+    networks:
+      front-tier:
+        ipv4_address: 192.168.58.2
+       
+    command: node .
+    ports:
+      - "3001:3000"
+    
+  service2:
+    image: service2
+    healthcheck:
+      test: ["CMD"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always
+    networks:
+      front-tier:
+        ipv4_address: 192.168.58.3
+    command: node .
+    ports:
+      - "3002:3000"
+
+networks:
+  front-tier:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.58.0/24"
+
+
+  
+  
